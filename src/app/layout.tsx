@@ -7,8 +7,8 @@ import DashboardWrapper from "@/dashboardWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Hôtel de ville",
-  description: "Gestion mmobilières",
+  title: "Birth Management",
+  description: "Gestion des actes de naissances",
   icons: {
       icon: '/kinshasa.png', // ou favicon.ico
     },
