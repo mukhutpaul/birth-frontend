@@ -63,7 +63,7 @@ const [formData, setFormData] = useState({
     const newErrors: Errors = {};
 
     if (!formData.username.trim())
-      newErrors.username = "Nom utilisataire est obligatoire";
+      newErrors.username = "Est obligatoire";
 
     if (!formData.noms.trim())
       newErrors.noms = "Noms est obligatoire";
@@ -354,10 +354,10 @@ const [formData, setFormData] = useState({
               </span>
               <input
                 accept="image/*"
-                id="photo"
-                name="photo"
+                id="profile_picture"
+                name="profile_picture"
                 type="file"
-                //value={formData.email}
+                value={formData.profile_picture}
                 onChange={handleChange}
                 className={`pl-10 pr-4 py-2 w-full border ${
                   errors.profile_picture ? "border-red-500" : "border-gray-300"
