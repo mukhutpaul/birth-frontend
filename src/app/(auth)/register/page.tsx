@@ -127,7 +127,8 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
     );
   }
   return (
-    <div className=" min-h-screen bg-gradient-to-bl from-indigo-50 via-sky-100 to-blue-200 flex items-center justify-center">
+    //
+    <div className=" min-h-screen bg-white from-indigo-50 via-sky-100 to-blue-200 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
         <div className="text-center mb-4">
           <h2 className="text-2xl font-bold text-neutral-800"><span className="text-red-500 font-bold"> E-birth</span> Enregistrement</h2>
