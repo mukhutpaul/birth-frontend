@@ -129,7 +129,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
     <div className=" min-h-screen bg-gradient-to-bl from-indigo-50 via-sky-100 to-blue-200 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
         <div className="text-center mb-4">
-          <h2 className="text-2xl font-bold text-neutral-800">E-birth Enregistrement</h2>
+          <h2 className="text-2xl font-bold text-neutral-800"><span className="text-red-500 font-bold"> E-birth</span> Enregistrement</h2>
           
         </div>
         <form onSubmit={handleSubmit}>
@@ -376,7 +376,8 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
           <p className="text-sm">
             Avez-vous un compte?{" "}
             <span className="text-blue-600 hover:text-blue-800 font-medium transition-colors">
-              <Link href="/login">Se connecter</Link>
+              <Link href="/login"  className="text-red-500">Se connecter</Link>
+           
             </span>
           </p>
         </div>
