@@ -4,20 +4,26 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
- const RegisterPage = () => {
-  const [formData, setFormData] = useState({
+
+const RegisterPage = () => {
+const [formData, setFormData] = useState({
     email: "",
     password: "",
     password2: "",
     noms: "",
     username: "",
+    profile_picture: "",
+    profile: ""
   });
+
   interface Errors {
     email?: string;
     password?: string;
     password2?: string;
-    username?: string;
-    noms?: string;
+    noms?:string,
+    profile_picture?: string,
+    profile?: string,
+    username?:string
     general?: string;
   }
 
@@ -27,8 +33,10 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
   password2: string
   noms: string;
   username: string;
- 
+  profile_picture: string,
+  profile: string,
   }
+  
   interface RegisterResponse {
     email:string;
     user_id:string;
@@ -41,7 +49,8 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
   const [isLoading, setIsLoading] = useState(false);
   const [returnEmail,setReturnEmail] = useState("");
   const [value, setValue] = useState("b");
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error when user types
@@ -58,6 +67,12 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
 
     if (!formData.noms.trim())
       newErrors.noms = "Noms est obligatoire";
+
+    if (!formData.profile.trim())
+      newErrors.profile = "Profile est obligatoire";
+
+    if (!formData.profile_picture.trim())
+      newErrors.profile_picture = "Photo est obligatoire";
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
@@ -80,6 +95,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     if (!validate()) return;
     setIsLoading(true);
 
@@ -87,13 +103,15 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
       const res = await AuthService.register(formData);
       if (res) {
         setReturnEmail(res.email);
-      setSuccess(true);
-      setFormData({
-        email: "",
-        password: "",
-        password2: "",
-        username: "",
-        noms: "",
+        setSuccess(true);
+        setFormData({
+          email: "",
+          password: "",
+          password2: "",
+          username: "",
+          noms: "",
+          profile_picture: "",
+          profile: ""
       });
       }else{
         
@@ -135,63 +153,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
         
         </div>
         <form onSubmit={handleSubmit}>
-          {/* <div className=" mb-4 w-full flex gap-3">
-            <div className=" w-full">
-              <label
-                htmlFor="noms"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Noms
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-3 text-gray-400">
-                  <FiUser />
-                </span>
-                <input
-                  id="noms"
-                  name="noms"
-                  type="text"
-                  value={formData.noms}
-                  onChange={handleChange}
-                  className={`pl-10 pr-4 py-2 w-full border ${
-                    errors.noms ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                  placeholder="John"
-                />
-              </div>
-              {errors.noms && (
-                <p className="mt-1 text-sm text-red-600">{errors.noms}</p>
-              )}
-            </div>
-
-            <div className=" w-full">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Nom utilisateur
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-3 text-gray-400">
-                  <FiUser />
-                </span>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className={`pl-10 pr-4 py-2 w-full border ${
-                    errors.username ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                  placeholder="Doe"
-                />
-              </div>
-              {errors.username && (
-                <p className="mt-1 text-sm text-red-600">{errors.username}</p>
-              )}
-            </div>
-          </div> */}
+          
           <div className=" mb-4 w-full">
             <label
               htmlFor="email"
@@ -262,35 +224,66 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
             )}
           </div>
 
-           <div className=" mb-6">
-            <label
-              htmlFor="profile"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Profile
-            </label>
-             <div className="relative">
-              <span className="absolute left-3 top-3 text-gray-400">
-                <FiUser/>
-              </span>
-            
+          <div className=" mb-4 w-full flex gap-3">
+            <div className=" w-full">
+              <label
+                htmlFor="noms"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Profile
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-3 text-gray-400">
+                  <FiUser />
+                </span>
                 <select
-                  value={formData.email}
-                  name="profil"
-                  onChange={(e) => {
-                  setValue(e.target.value);
-                  }}
+                  //value={formData.profile}
+                  name="profile"
+                  value={formData.profile}
+                  onChange={handleChange}
                   className={`pl-10 pr-4 py-2 w-full border ${
-                  errors.username ? "border-red-500" : "border-gray-300"
+                  errors.profile ? "border-red-500" : "border-gray-300"
                   } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                 >
-                  <option value="a">a</option>
+                  <option value="">----------</option>
                   <option value="b">b</option>
                   <option value="c">c</option>
                   <option value="d">d</option>
                 </select>
-                </div>
+              </div>
+              {errors.profile && (
+                <p className="mt-1 text-sm text-red-600">{errors.profile}</p>
+              )}
+          </div>
+
+          <div className=" w-full">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Nom utilisateur
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-3 text-gray-400">
+                  <FiUser />
+                </span>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className={`pl-10 pr-4 py-2 w-full border ${
+                    errors.username ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                  placeholder="Doe"
+                />
+              </div>
+              {errors.username && (
+                <p className="mt-1 text-sm text-red-600">{errors.username}</p>
+              )}
             </div>
+          </div>
 
           <div className=" mb-4">
             <label
@@ -343,9 +336,46 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
                 placeholder="Confirm your password"
               />
             </div>
+            
             {errors.password2 && (
               <p className="mt-1 text-sm text-red-600">{errors.password2}</p>
             )}
+
+            <div className=" mb-4 w-full">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Photo Profil
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-3 text-gray-400">
+                <FiUser />
+              </span>
+              <input
+                accept="image/*"
+                id="photo"
+                name="photo"
+                type="file"
+                //value={formData.email}
+                onChange={handleChange}
+                className={`pl-10 pr-4 py-2 w-full border ${
+                  errors.profile_picture ? "border-red-500" : "border-gray-300"
+                } 
+                ${
+                  errors.profile_picture ? "border-red-500" : "border-gray-300"
+                }
+                rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                placeholder="photo"
+              />
+            </div>
+            {errors.profile_picture && (
+              <p className="mt-1 text-sm text-red-600">{errors.profile_picture}</p>
+            )}
+             {error && (
+              <p className="mt-1 text-sm text-red-600">{error}</p>
+            )}
+          </div>
 
             {errors.general && (
               <p className="mt-1 text-sm text-red-600">{errors.general}</p>
@@ -365,41 +395,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
 
           </div>
 
-          <div className=" mb-4 w-full">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Photo Profil
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-3 text-gray-400">
-                <FiUser />
-              </span>
-              <input
-                accept="image/*"
-                id="photo"
-                name="photo"
-                type="file"
-                //value={formData.email}
-                onChange={handleChange}
-                className={`pl-10 pr-4 py-2 w-full border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } 
-                ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }
-                rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                placeholder="you@example.com"
-              />
-            </div>
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-            )}
-             {error && (
-              <p className="mt-1 text-sm text-red-600">{error}</p>
-            )}
-          </div>
+          
 
           <div className=" w-full relative">
             <button
@@ -456,3 +452,41 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
 
 
 export default RegisterPage;
+
+
+
+{/* 
+  <div className=" mb-6">
+            <label
+              htmlFor="profile"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Profile
+            </label>
+             <div className="relative">
+              <span className="absolute left-3 top-3 text-gray-400">
+                <FiUser/>
+              </span>
+            
+                <select
+                  value={formData.profile}
+                  name="profile"
+                  onChange={(e) => {
+                  setValue(e.target.value);
+                  }}
+                  className={`pl-10 pr-4 py-2 w-full border ${
+                  errors.profile ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                >
+                  <option value="a">a</option>
+                  <option value="b">b</option>
+                  <option value="c">c</option>
+                  <option value="d">d</option>
+                </select>
+                </div>
+            </div>
+  
+  
+  
+  
+   */}
