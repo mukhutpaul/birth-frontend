@@ -178,7 +178,7 @@ const [formData, setFormData] = useState({
                   errors.noms ? "border-red-500" : "border-gray-300"
                 }
                 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                placeholder="you@example.com"
+                placeholder="nom complet"
               />
             </div>
             {errors.noms && (
@@ -276,7 +276,7 @@ const [formData, setFormData] = useState({
                   className={`pl-10 pr-4 py-2 w-full border ${
                     errors.username ? "border-red-500" : "border-gray-300"
                   } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                  placeholder="Doe"
+                  placeholder="nom utilisateur"
                 />
               </div>
               {errors.username && (
@@ -305,7 +305,7 @@ const [formData, setFormData] = useState({
                 className={`pl-10 pr-4 py-2 w-full border ${
                   errors.password ? "border-red-500" : "border-gray-300"
                 } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                placeholder="At least 8 characters"
+                placeholder="8 caractères au moins"
               />
             </div>
             {errors.password && (
@@ -333,7 +333,7 @@ const [formData, setFormData] = useState({
                 className={`pl-10 pr-4 py-2 w-full border ${
                   errors.password2 ? "border-red-500" : "border-gray-300"
                 } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                placeholder="Confirm your password"
+                placeholder="Confirme le mot de passe"
               />
             </div>
             
@@ -367,6 +367,7 @@ const [formData, setFormData] = useState({
                 }
                 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                 placeholder="photo"
+                
               />
             </div>
             {errors.profile_picture && (
