@@ -57,8 +57,8 @@ const LoginPage = () => {
     }
   }
   return (
-     <div className=" min-h-screen bg-white from-indigo-50  flex items-center justify-center">
-          <div className="p-6 rounded-lg shadow-2xl max-w-md w-full" >
+     <div className=" min-h-screen bg-gray-100 from-indigo-50  flex items-center justify-center">
+          <div className="p-6 rounded-lg shadow-2xl max-w-md w-full bg-white" >
             <div className="text-center mb-4">
               <h2 className="text-2xl font-bold text-neutral-800"><span className="text-red-500 font-bold"> E-birth</span> Connexion</h2>
             </div>
