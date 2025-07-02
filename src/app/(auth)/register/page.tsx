@@ -109,7 +109,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
   if (success) {
     return (
       <div className=" min-h-screen bg-gradient-to-bl from-indigo-50 via-sky-100 to-blue-200 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full text-center">
+        <div className="bg-white p-6 rounded-lg shadow-2xl max-w-md w-full text-center">
             <div className=" w-full flex justify-center">
                     <FiCheck className="text-green-500 text-4xl mb-4 font-black" />
             </div>    
