@@ -40,6 +40,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [returnEmail,setReturnEmail] = useState("");
+  const [value, setValue] = useState("b");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -133,7 +134,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
           
         </div>
         <form onSubmit={handleSubmit}>
-          <div className=" mb-4 w-full flex gap-3">
+          {/* <div className=" mb-4 w-full flex gap-3">
             <div className=" w-full">
               <label
                 htmlFor="noms"
@@ -189,7 +190,7 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
                 <p className="mt-1 text-sm text-red-600">{errors.username}</p>
               )}
             </div>
-          </div>
+          </div> */}
           <div className=" mb-4 w-full">
             <label
               htmlFor="email"
@@ -259,6 +260,36 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
               <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
           </div>
+
+           <div className=" mb-6">
+            <label
+              htmlFor="profile"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Profile
+            </label>
+             <div className="relative">
+              <span className="absolute left-3 top-3 text-gray-400">
+                <FiUser/>
+              </span>
+            
+                <select
+                  value={formData.email}
+                  name="profil"
+                  onChange={(e) => {
+                  setValue(e.target.value);
+                  }}
+                  className={`pl-10 pr-4 py-2 w-full border ${
+                  errors.username ? "border-red-500" : "border-gray-300"
+                  } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                >
+                  <option value="a">a</option>
+                  <option value="b">b</option>
+                  <option value="c">c</option>
+                  <option value="d">d</option>
+                </select>
+                </div>
+            </div>
 
           <div className=" mb-4">
             <label
@@ -331,6 +362,42 @@ import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
               <p className="mt-1 text-sm text-red-600">{process.env.NEXT_PUBLIC_GENERAL }</p>
             )} 
 
+          </div>
+
+          <div className=" mb-4 w-full">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Photo Profil
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-3 text-gray-400">
+                <FiUser />
+              </span>
+              <input
+                accept="image/*"
+                id="photo"
+                name="photo"
+                type="file"
+                //value={formData.email}
+                onChange={handleChange}
+                className={`pl-10 pr-4 py-2 w-full border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                } 
+                ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                }
+                rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                placeholder="you@example.com"
+              />
+            </div>
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+            )}
+             {error && (
+              <p className="mt-1 text-sm text-red-600">{error}</p>
+            )}
           </div>
 
           <div className=" w-full relative">
