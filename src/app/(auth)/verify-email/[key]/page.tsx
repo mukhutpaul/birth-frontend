@@ -1,27 +1,35 @@
 'use client'
 import { AuthService } from '@/lib/services';
 import { useParams } from 'next/navigation';
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useMemo, useState} from 'react'
 
 const VerifyEmailPage = () => {
-      const {key} = useParams<{ key:string }>()
-      
-   const [status,setStatus] =useState<'verifying' | 'success' | 'error'>('verifying');
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const {key}  = useParams<{ key:string }>()
+  const b = decodeURIComponent(key);
+  console.log(b)
+  const [isLoading, setIsLoading] = useState(true);
+  //console.log(b)
 
-    useEffect(() => {
-    if (!key) return setStatus("error");
+  const [status,setStatus] =useState<'verifying' | 'success' | 'error'>('verifying');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+ 
+   useEffect(() => {
+    if (!b) return setStatus("error");
     const verifyEmail = async () => {
         setStatus("verifying");
-        const response = await AuthService.verifyEmail(key as string);  
-
+        const response = await AuthService.verifyEmail(b as string);  
+        console.log(response.message);
+        console.log(response.refresh);
+        console.log(response.access);
+        console.log(response.user);
         // Check if response has error
         if (response?.error) {
           setStatus("error");
           setErrorMessage(response.error?.message || 'An error occurred while verifying your email');
           return;
         } 
-        if (response?.message && response?.access  && response.refresh && response.user ) {
+        if (response.message && response.access  && response.refresh) {
           setStatus("success");
           // Redirect to dashboard
           setTimeout(() => {
@@ -32,7 +40,7 @@ const VerifyEmailPage = () => {
     };
 
     verifyEmail();
-  }, [key]);
+  }, [b]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

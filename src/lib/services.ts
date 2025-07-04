@@ -25,10 +25,11 @@ interface LoginResponse {
 interface RegisterData {
   email: string;
   password: string;
-  password2: string
-  noms: string;
-  username: string;
- 
+  password2: string;
+  noms:string,
+ // profile_picture: string,
+  profile: string,
+  username:string
 }
 
 interface RegisterResponse {
@@ -107,7 +108,7 @@ export const AuthService = {
         console.log("Error in AuthService.login: ", error);
     }
   },
-  verifyEmail:async (token:string)=> {
+  verifyEmail:async (token:any)=> {
      try {
          const res = await api.get(`${baseURL}/verify-email/${token}/`);
          if (res.status === 200) {

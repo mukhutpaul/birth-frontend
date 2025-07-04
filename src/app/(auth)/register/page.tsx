@@ -12,7 +12,7 @@ const [formData, setFormData] = useState({
     password2: "",
     noms: "",
     username: "",
-    profile_picture: "",
+   // profile_picture: "",
     profile: ""
   });
 
@@ -21,19 +21,19 @@ const [formData, setFormData] = useState({
     password?: string;
     password2?: string;
     noms?:string,
-    profile_picture?: string,
+    //profile_picture?: string,
     profile?: string,
     username?:string
     general?: string;
   }
 
-  interface RegisterData {
+interface RegisterData {
   email: string;
   password: string;
   password2: string
   noms: string;
   username: string;
-  profile_picture: string,
+  //profile_picture: string,
   profile: string,
   }
   
@@ -71,8 +71,8 @@ const [formData, setFormData] = useState({
     if (!formData.profile.trim())
       newErrors.profile = "Profile est obligatoire";
 
-    if (!formData.profile_picture.trim())
-      newErrors.profile_picture = "Photo est obligatoire";
+    // if (!formData.profile_picture.trim())
+    //   newErrors.profile_picture = "Photo est obligatoire";
 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
@@ -110,7 +110,7 @@ const [formData, setFormData] = useState({
           password2: "",
           username: "",
           noms: "",
-          profile_picture: "",
+          //profile_picture: "",
           profile: ""
       });
       }else{
@@ -246,9 +246,9 @@ const [formData, setFormData] = useState({
                   } rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                 >
                   <option value="">----------</option>
-                  <option value="b">b</option>
-                  <option value="c">c</option>
-                  <option value="d">d</option>
+                  <option value="1">b</option>
+                  <option value="1">c</option>
+                  <option value="1">d</option>
                 </select>
               </div>
               {errors.profile && (
@@ -341,7 +341,7 @@ const [formData, setFormData] = useState({
               <p className="mt-1 text-sm text-red-600">{errors.password2}</p>
             )}
 
-            <div className=" mb-4 w-full">
+            {/* <div className=" mb-4 w-full">
             <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-1"
@@ -357,7 +357,7 @@ const [formData, setFormData] = useState({
                 id="profile_picture"
                 name="profile_picture"
                 type="file"
-                value={formData.profile_picture}
+                //value={formData.profile_picture}
                 onChange={handleChange}
                 className={`pl-10 pr-4 py-2 w-full border ${
                   errors.profile_picture ? "border-red-500" : "border-gray-300"
@@ -376,7 +376,7 @@ const [formData, setFormData] = useState({
              {error && (
               <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
-          </div>
+          </div> */}
 
             {errors.general && (
               <p className="mt-1 text-sm text-red-600">{errors.general}</p>
