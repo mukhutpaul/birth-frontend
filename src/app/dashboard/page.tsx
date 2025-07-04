@@ -3,12 +3,11 @@
 import { PlusCircleIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Header from "@/app/(components)/Header";
-import Rating from "@/app/(components)/Rating";
 import Image from "next/image";
-import DashWrapper from "../dashWrapper";
 import CreatePostModal from "./CreatePost";
 import { useGetPostsQuery } from "@/state/api";
 import { FiDollarSign, FiHome, FiMail, FiPhone, FiUser } from "react-icons/fi";
+import DashWrapper from "@/dashWrapper";
 
 type ProductFormData = {
   name: string;
