@@ -12,16 +12,38 @@ const [formData, setFormData] = useState({
     password2: "",
     noms: "",
     username: "",
-   // profile_picture: "",
     profile: ""
   });
+
+  const [profile_picture, setProfile_picture] = useState(null);
+  const [previewImage, setPreviewImage] =  useState<ArrayBuffer | string | null>(null);;
+
+  const handleFileChange = (event:any) => {
+    const file = event.target.files[0];
+    setProfile_picture(file);
+
+    // Afficher une prévisualisation de l'image
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+       };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
+    }
+  };
+
+  // const handleFileChange = (event:any) =>{
+  //   setProfile_picture(event.target.files[0])
+  // }
 
   interface Errors {
     email?: string;
     password?: string;
     password2?: string;
     noms?:string,
-    //profile_picture?: string,
+    profile_picture?: string,
     profile?: string,
     username?:string
     general?: string;
@@ -33,7 +55,7 @@ interface RegisterData {
   password2: string
   noms: string;
   username: string;
-  //profile_picture: string,
+  profile_picture: string,
   profile: string,
   }
   
@@ -52,7 +74,8 @@ interface RegisterData {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    setFormData((prev) => ({ ...prev,profile_picture, [name]: value }));
     // Clear error when user types
     if (errors[name as keyof Errors]) {
       setErrors((prev: Errors) => ({ ...prev, [name as keyof Errors]: "" }));
@@ -71,7 +94,7 @@ interface RegisterData {
     if (!formData.profile.trim())
       newErrors.profile = "Profile est obligatoire";
 
-    // if (!formData.profile_picture.trim())
+    // if (!profile_picture.trim())
     //   newErrors.profile_picture = "Photo est obligatoire";
 
     if (!formData.email.trim()) {
@@ -96,6 +119,16 @@ interface RegisterData {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData)
+
+     if (!profile_picture) {
+      alert("Veuillez sélectionner une image.");
+      return;
+    }
+
+    const formDat = new FormData();
+    formDat.append('image', profile_picture);
+    console.log(formDat)
+
     if (!validate()) return;
     setIsLoading(true);
 
@@ -110,7 +143,7 @@ interface RegisterData {
           password2: "",
           username: "",
           noms: "",
-          //profile_picture: "",
+        //  profile_picture: null,
           profile: ""
       });
       }else{
@@ -341,7 +374,7 @@ interface RegisterData {
               <p className="mt-1 text-sm text-red-600">{errors.password2}</p>
             )}
 
-            {/* <div className=" mb-4 w-full">
+            <div className=" mb-4 w-full">
             <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-1"
@@ -353,12 +386,13 @@ interface RegisterData {
                 <FiUser />
               </span>
               <input
-                accept="image/*"
+               type="file" accept="image/*" onChange={handleFileChange}
+                //accept="image/*"
                 id="profile_picture"
                 name="profile_picture"
-                type="file"
-                //value={formData.profile_picture}
-                onChange={handleChange}
+                //type="file"
+                //value={profile_picture}
+                //onChange={handleFileChange}
                 className={`pl-10 pr-4 py-2 w-full border ${
                   errors.profile_picture ? "border-red-500" : "border-gray-300"
                 } 
@@ -376,7 +410,8 @@ interface RegisterData {
              {error && (
               <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
-          </div> */}
+          </div>
+           {previewImage && <img src={previewImage} alt="Aperçu" style={{ maxWidth: '200px' }} />}
 
             {errors.general && (
               <p className="mt-1 text-sm text-red-600">{errors.general}</p>
