@@ -1,6 +1,7 @@
 'use client'
 import { AuthService } from "@/lib/services";
 import axios from "axios";
+import { FileType } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
@@ -12,31 +13,13 @@ const [formData, setFormData] = useState({
     password2: "",
     noms: "",
     username: "",
-    profile: ""
+    profile: "",
+    profile_picture:null
   });
 
-  const [profile_picture, setProfile_picture] = useState(null);
-  const [previewImage, setPreviewImage] =  useState<ArrayBuffer | string | null>(null);;
+  const [profile_pictur,setProfile_picture] =  useState<null | FormData | string | any>(null);
+  const [previewImage, setPreviewImage] =  useState<ArrayBuffer | string | null>(null);
 
-  const handleFileChange = (event:any) => {
-    const file = event.target.files[0];
-    setProfile_picture(file);
-
-    // Afficher une prévisualisation de l'image
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-       };
-      reader.readAsDataURL(file);
-    } else {
-      setPreviewImage(null);
-    }
-  };
-
-  // const handleFileChange = (event:any) =>{
-  //   setProfile_picture(event.target.files[0])
-  // }
 
   interface Errors {
     email?: string;
@@ -55,7 +38,7 @@ interface RegisterData {
   password2: string
   noms: string;
   username: string;
-  profile_picture: string,
+  profile_picture: null,
   profile: string,
   }
   
@@ -72,10 +55,34 @@ interface RegisterData {
   const [returnEmail,setReturnEmail] = useState("");
   const [value, setValue] = useState("b");
 
+  const handleFileChange = (event:any) => {
+    event.preventDefault()
+    const file = event.target.files?.[0] as File;
+    setProfile_picture(file);
+
+    // Afficher une prévisualisation de l'image
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result);
+       };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
+    }
+  };
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    console.log(profile_pictur)
     
-    setFormData((prev) => ({ ...prev,profile_picture, [name]: value }));
+    //const formDat = new FormData();
+    //formDat.append('image',profile_picture);
+
+    
+    
+    setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error when user types
     if (errors[name as keyof Errors]) {
       setErrors((prev: Errors) => ({ ...prev, [name as keyof Errors]: "" }));
@@ -116,24 +123,52 @@ interface RegisterData {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
-    console.log(formData)
 
-     if (!profile_picture) {
+    if (!profile_pictur) {
       alert("Veuillez sélectionner une image.");
       return;
     }
+    const formDat = new FormData(e.target);
 
-    const formDat = new FormData();
-    formDat.append('image', profile_picture);
-    console.log(formDat)
+    const files = formDat.getAll('profile_picture'); // 'myFile' est le nom de votre input type="file"
+     console.log(formDat);
+    // Traitement des fichiers (ex: affichage des noms)
+    files.forEach(file => {
+      console.log(file);
+    });
 
+
+    //formDat.append('profile_picture',profile_pictur);
+
+    //console.log(formDat.get("profile_picture"));
+    
+
+    formData.profile_picture = formDat.get("profile_picture") as any
+    //console.log(formData)
+    //console.log(profile_pictur)
+
+    
     if (!validate()) return;
     setIsLoading(true);
-
     try {
+      try {
+      const response = await fetch('http://localhost:8000/api/auth/register/', {
+        method: 'POST',
+        body: formDat,
+      });
+
+      if (response.ok) {
+        console.log('Formulaire soumis avec succès !');
+      } else {
+        console.error('Erreur lors de la soumission du formulaire.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête:', error);
+    }
       const res = await AuthService.register(formData);
+
       if (res) {
         setReturnEmail(res.email);
         setSuccess(true);
@@ -143,8 +178,8 @@ interface RegisterData {
           password2: "",
           username: "",
           noms: "",
-        //  profile_picture: null,
-          profile: ""
+          profile: "",
+          profile_picture: null
       });
       }else{
         
@@ -185,7 +220,7 @@ interface RegisterData {
           <h2 className="text-2xl font-bold text-neutral-800"><span className="text-red-500 font-bold"> E-birth</span> Enregistrement</h2>
         
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} method="post" encType="multipart/form-data">
           
           <div className=" mb-4 w-full">
             <label
@@ -386,9 +421,10 @@ interface RegisterData {
                 <FiUser />
               </span>
               <input
-               type="file" accept="image/*" onChange={handleFileChange}
-                //accept="image/*"
-                id="profile_picture"
+               type="file" 
+               onChange={handleFileChange}
+                accept="image/*"
+               // id="profile_picture"
                 name="profile_picture"
                 //type="file"
                 //value={profile_picture}
@@ -411,7 +447,7 @@ interface RegisterData {
               <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
           </div>
-           {previewImage && <img src={previewImage} alt="Aperçu" style={{ maxWidth: '200px' }} />}
+           {previewImage && <img src={previewImage as string} alt="Aperçu" style={{ maxWidth: '200px' }} />}
 
             {errors.general && (
               <p className="mt-1 text-sm text-red-600">{errors.general}</p>
