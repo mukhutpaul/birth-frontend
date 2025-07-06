@@ -437,8 +437,9 @@ interface RegisterData {
               <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
           </div>
+           <div className="ml-[20%] mr-[20%]">
            {previewImage && <img src={previewImage as string} alt="Aperçu" style={{ maxWidth: '200px' }} />}
-
+           </div>
             {errors.general && (
               <p className="mt-1 text-sm text-red-600">{errors.general}</p>
             )}
