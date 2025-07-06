@@ -153,24 +153,14 @@ interface RegisterData {
     if (!validate()) return;
     setIsLoading(true);
     try {
-      try {
-      const response = await fetch('http://localhost:8000/api/auth/register/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/register/`, {
         method: 'POST',
         body: formDat,
       });
+      //const res = await AuthService.register(formData);
 
       if (response.ok) {
-        console.log('Formulaire soumis avec succès !');
-      } else {
-        console.error('Erreur lors de la soumission du formulaire.');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la requête:', error);
-    }
-      const res = await AuthService.register(formData);
-
-      if (res) {
-        setReturnEmail(res.email);
+        //setReturnEmail(response.email);
         setSuccess(true);
         setFormData({
           email: "",
