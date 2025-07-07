@@ -1,4 +1,5 @@
 import React from 'react'
+import { Toaster } from "@/components/ui/sonner"
 
 const AuthLayout = ({
     children
@@ -8,6 +9,7 @@ const AuthLayout = ({
   return (
     <div className=' min-h-screen w-full'>
         {children}
+         <Toaster />
     </div>
   )
 }

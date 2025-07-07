@@ -5,6 +5,7 @@ import { FileType } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FiMail, FiLock, FiUser, FiArrowRight, FiCheck } from "react-icons/fi";
+import { toast } from "sonner"
 
 const RegisterPage = () => {
 const [formData, setFormData] = useState({
@@ -130,7 +131,8 @@ interface RegisterData {
     e.preventDefault();
 
     if (!profile_pictur) {
-      alert("Veuillez sélectionner une image.");
+      toast("Veuillez sélectionner une image.")
+      //alert("Veuillez sélectionner une image.");
       return;
     }
     const formDat = new FormData(e.target);
