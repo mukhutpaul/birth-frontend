@@ -19,6 +19,9 @@ const [formData, setFormData] = useState({
 
   const [profile_pictur,setProfile_picture] =  useState<null | FormData | string | any>(null);
   const [previewImage, setPreviewImage] =  useState<ArrayBuffer | string | null>(null);
+  
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [data, setData] = useState(null);
 
 
   interface Errors {
@@ -143,7 +146,6 @@ interface RegisterData {
     //formDat.append('profile_picture',profile_pictur);
 
     //console.log(formDat.get("profile_picture"));
-    
 
     formData.profile_picture = formDat.get("profile_picture") as any
     //console.log(formData)
@@ -158,7 +160,6 @@ interface RegisterData {
         body: formDat,
       });
       //const res = await AuthService.register(formData);
-
       if (response.ok) {
         //setReturnEmail(response.email);
         setSuccess(true);
@@ -171,13 +172,14 @@ interface RegisterData {
           profile: "",
           profile_picture: null
       });
-      }else{
-        
+     
+      } else {   
+      const errorData = await response.json(); // ou response.text()
+      setErrorMessage(errorData.email  || errorData.username || errorData.profile_picture || errorData.profile || 'Une erreur s\'est produite' as any);
+      console.log(errorMessage)
       }
     } catch (error) {
-      
-      console.error("Registration failed:", error);
-      setErrors({ general: "Registration failed. Please try again." });
+      setErrors({ general: "Une erreur inattendue, Verifiez votre réseau." });
     } finally {
       setIsLoading(false);
     }
@@ -398,7 +400,7 @@ interface RegisterData {
             {errors.password2 && (
               <p className="mt-1 text-sm text-red-600">{errors.password2}</p>
             )}
-
+          </div>
             <div className=" mb-4 w-full">
             <label
               htmlFor="email"
@@ -437,29 +439,16 @@ interface RegisterData {
               <p className="mt-1 text-sm text-red-600">{error}</p>
             )}
           </div>
-           <div className="ml-[20%] mr-[20%]">
-           {previewImage && <img src={previewImage as string} alt="Aperçu" style={{ maxWidth: '200px' }} />}
+           <div className="ml-[20%] mr-[20%] w-[220px] justify-center">
+           {previewImage && <img src={previewImage as string} alt="Aperçu" className="w-[200px] h-[200px]"/>}
            </div>
-            {errors.general && (
+            {errorMessage && (
+              <p className="mt-1 text-sm text-red-600">{errorMessage}</p>
+            )}
+            {errors && (
               <p className="mt-1 text-sm text-red-600">{errors.general}</p>
             )}
-
-            {process.env.NEXT_PUBLIC_MAIL && (
-              <p className="mt-1 text-sm text-red-600">{process.env.NEXT_PUBLIC_MAIL}</p>
-            )}
-
-            {process.env.NEXT_PUBLIC_USERNAME && (
-              <p className="mt-1 text-sm text-red-600">{process.env.NEXT_PUBLIC_USERNAME }</p>
-            )}
-
-             {process.env.NEXT_PUBLIC_GENERAL && (
-              <p className="mt-1 text-sm text-red-600">{process.env.NEXT_PUBLIC_GENERAL }</p>
-            )} 
-
-          </div>
-
-          
-
+          <br />
           <div className=" w-full relative">
             <button
               type="submit"
