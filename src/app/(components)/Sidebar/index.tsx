@@ -1,5 +1,4 @@
 "use client";
-
 import { useAppDispatch, useAppSelector } from "@/redux";
 import { setIsSidebarCollapsed } from "@/state";
 import {
@@ -82,10 +81,10 @@ const Sidebar = () => {
         }`}
       >
         <Image
-          src="/kinshasa.png"
-          alt="htv"
-          width={100}
-          height={100}
+          src="/ve.png"
+          alt="edstock-logo"
+          width={27}
+          height={27}
           className="rounded w-8"
         />
         <h1
@@ -93,7 +92,7 @@ const Sidebar = () => {
             isSidebarCollapsed ? "hidden" : "block"
           } font-extrabold text-2xl`}
         >
-          E-BAIL
+          EDSTOCK
         </h1>
 
         <button
@@ -109,10 +108,10 @@ const Sidebar = () => {
         <SidebarLink
           href="/dashboard"
           icon={Layout}
-          label="Tableau de bord"
+          label="Dashboard"
           isCollapsed={isSidebarCollapsed}
         />
-        {/* <SidebarLink
+        <SidebarLink
           href="/inventory"
           icon={Archive}
           label="Inventory"
@@ -141,12 +140,12 @@ const Sidebar = () => {
           icon={CircleDollarSign}
           label="Expenses"
           isCollapsed={isSidebarCollapsed}
-        /> */}
+        />
       </div>
 
       {/* FOOTER */}
       <div className={`${isSidebarCollapsed ? "hidden" : "block"} mb-10`}>
-        <p className="text-center text-xs text-gray-500">&copy; 2024 E-bail</p>
+        <p className="text-center text-xs text-gray-500">&copy; 2024 Edstock</p>
       </div>
     </div>
   );

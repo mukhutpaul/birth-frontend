@@ -8,6 +8,7 @@ const AuthLayout = ({
 }) => {
   return (
     <div className=' min-h-screen w-full'>
+
         {children}
          <Toaster />
     </div>
